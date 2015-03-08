@@ -1,4 +1,4 @@
-var size = 12;
+var size = 11;
 var cell_num = 70;
 
 var c = document.getElementById('zone');
@@ -34,14 +34,15 @@ function findNeighbors(x,y) {
 }
 
 function adjustStatus() {
-  for (var x=0, len=cell.length; x<len; x++) {
-    for (var y=0, len2=cell[x].length; y<len2; y++) {
+  var last_gen = cell
+  for (var x=0, len=last_gen.length; x<len; x++) {
+    for (var y=0, len2=last_gen[x].length; y<len2; y++) {
       var live_neighbors = 0;
       findNeighbors(x,y).forEach(function(i) {
-        if (cell[i[0]][i[1]]) live_neighbors++;
+        if (last_gen[i[0]][i[1]]) live_neighbors++;
       });
-      if ((cell[x][y]) && ((live_neighbors < 2) || (live_neighbors > 3))) cell[x][y] = false;
-      else if (!cell[x][y] && (live_neighbors === 3)) cell[x][y] = true;
+      if ((last_gen[x][y]) && ((live_neighbors < 2) || (live_neighbors > 3))) cell[x][y] = false;
+      else if (!last_gen[x][y] && (live_neighbors === 3)) cell[x][y] = true;
     }
   }
   generateNext();
@@ -76,5 +77,5 @@ seed.random = function(start_num) {
   generateNext();
 };
 
-seed.random(700);
+seed.random(400);
 window.setInterval(adjustStatus, 300)
