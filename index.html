@@ -1,14 +1,19 @@
 <html>
 <head>
   <title>Life</title>
-  <style>
-    canvas {
-      display:block;
-      margin: auto;
-    }
-  </style>
+  <link rel='stylesheet' href='style.css'>
 </head>
 <body>
+	<div id='btn_container'>
+		<div class='btn' id='random'>Random</div>
+		<div class='btn' id='acorn'>Acorn</div>
+		<div class='btn' id='glider'>Glider</div>
+	</div>
+	<div id='speed_container'>
+		<div id='label'>Speed</div>
+		<div id='minus'>-</div>
+		<div id='plus'>+</div>
+	</div>
   <canvas id='zone'></canvas>
   <script src='index.js'></script>
 </body>

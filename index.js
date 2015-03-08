@@ -1,5 +1,5 @@
-var size = 11;
-var cell_num = 70;
+var size = 8;
+var cell_num = 100;
 
 var c = document.getElementById('zone');
 c.width = size*cell_num;
@@ -77,5 +77,5 @@ seed.random = function(start_num) {
   generateNext();
 };
 
-seed.random(400);
+seed.random(700);
 window.setInterval(adjustStatus, 300)
