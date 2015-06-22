@@ -1,9 +1,11 @@
-var size = 8;
-var cell_num = 100;
+'use strict';
+
+var size = 7;
+var cell_num = 80;
 
 var c = document.getElementById('zone');
-c.width = size*cell_num;
-c.height = size*cell_num;
+c.width = size * cell_num;
+c.height = size * cell_num;
 var ctx = c.getContext('2d');
 
 var cell = [];
@@ -19,33 +21,34 @@ var cell = [];
 })();
 
 function findNeighbors(x,y) {
-  function up(_x) { return _x===0 ? cell_num-1 : _x-1; }
-  function down(_x) { return _x===cell_num-1 ? 0 : _x+1; }
-  function left(_y) { return _y===0 ? cell_num-1 : _y-1; }
-  function right(_y) { return _y===cell_num-1 ? 0 : _y+1; }
-  return [ [ up(x)   ,   right(y)  ],
-           [ up(x)   ,   y         ],
-           [ up(x)   ,   left(y)   ],
-           [ x       ,   left(y)   ],
-           [ x       ,   right(y)  ],
-           [ down(x) ,   left(y)   ],
-           [ down(x) ,   y         ],
-           [ down(x) ,   right(y)  ] ];
+  function up(_x) { return _x === 0 ? cell_num - 1 : _x - 1; }
+  function down(_x) { return _x === cell_num - 1 ? 0 : _x + 1; }
+  function left(_y) { return _y === 0 ? cell_num - 1 : _y - 1; }
+  function right(_y) { return _y === cell_num - 1 ? 0 : _y + 1; }
+  var live_neighbors = 0;
+  [ [ up(x)   ,   right(y)  ],
+    [ up(x)   ,   y         ],
+    [ up(x)   ,   left(y)   ],
+    [ x       ,   left(y)   ],
+    [ x       ,   right(y)  ],
+    [ down(x) ,   left(y)   ],
+    [ down(x) ,   y         ],
+    [ down(x) ,   right(y)  ] ].forEach(function(n) {
+        if (cell[n[0]][n[1]]) live_neighbors++
+    })
+    return live_neighbors;
 }
 
 function adjustStatus() {
-  var last_gen = cell
-  for (var x=0, len=last_gen.length; x<len; x++) {
-    for (var y=0, len2=last_gen[x].length; y<len2; y++) {
-      var live_neighbors = 0;
-      findNeighbors(x,y).forEach(function(i) {
-        if (last_gen[i[0]][i[1]]) live_neighbors++;
-      });
-      if ((last_gen[x][y]) && ((live_neighbors < 2) || (live_neighbors > 3))) cell[x][y] = false;
-      else if (!last_gen[x][y] && (live_neighbors === 3)) cell[x][y] = true;
+    var last_gen = cell;
+    for (var x=0, len=last_gen.length; x<len; x++) {
+        for (var y=0, len2=last_gen[x].length; y<len2; y++) {
+            var neighbors = findNeighbors(x,y);
+            if ((last_gen[x][y]) && ((neighbors < 2) || (neighbors > 3))) cell[x][y] = false;
+            else if (neighbors === 3) cell[x][y] = true;
+        }
     }
-  }
-  generateNext();
+    generateNext();
 }
 
 function generateNext() {
@@ -64,18 +67,14 @@ function updateState(x,y,opt) {
   ctx.fill();
 }
 
-var seed = {};
-
-seed.random = function(start_num) {
+function random(start_num) {
   function rando() { return Math.floor(Math.random() * cell_num); }
-  var count = 0;
-  while (count < start_num) {
-    count++;
+  while (start_num--) {
     var x = rando(), y = rando();
     cell[x][y] = true;
   }
   generateNext();
 };
 
-seed.random(700);
-window.setInterval(adjustStatus, 300)
+random(800);
+window.setInterval(adjustStatus, 300);
