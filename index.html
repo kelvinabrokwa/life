@@ -1,7 +1,6 @@
 <html>
 <head>
   <title>Life</title>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <style>
     body {
       margin: 0;
@@ -14,7 +13,21 @@
   </style>
 </head>
 <body>
+  <div>
+    <button onclick='randomSeed()'>Random</button>
+    <button onclick='gliderSeed()'>Glider</button>
+  </div>
   <canvas id='zone'></canvas>
   <script src='index.js'></script>
+  <script>
+    function randomSeed() {
+      var r = new Random(800);
+      r.start();
+    }
+    function gliderSeed() {
+      var g = new Glider();
+      g.start();
+    }
+  </script>
 </body>
 </html>
