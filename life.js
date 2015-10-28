@@ -45,7 +45,7 @@ function nextGen() {
     for (var cell = 0, len2 = last_gen[row].length; cell < len2; cell++) {
       var neighbors = countNeighbors(row, cell, last_gen);
       if (last_gen[row][cell] && (neighbors < 2 || neighbors > 3)) cells[row][cell] = false;
-      if (neighbors === 3) cells[row][cell] = true;
+      else if (neighbors === 3) cells[row][cell] = true;
     }
   }
 }
